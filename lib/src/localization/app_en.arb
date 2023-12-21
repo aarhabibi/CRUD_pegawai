@@ -1,0 +1,6 @@
+{
+  "appTitle": "note_app_mysql",
+  "@appTitle": {
+    "description": "The title of the application"
+  }
+}
