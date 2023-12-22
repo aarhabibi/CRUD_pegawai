@@ -1,25 +1,26 @@
-import 'dart:convert';
+import 'dart:convert';    
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:note_app_mysql/config.dart';
 import 'package:note_app_mysql/home.dart';
     
-    class Edit extends StatefulWidget {
-      Edit({required this.id});
+    class Edit_profil extends StatefulWidget {
+      Edit_profil({required this.id});
     
       String id;
     
       @override
-      State<Edit> createState() => _EditState();
+      State<Edit_profil> createState() => _EditState();
     }
     
-    class _EditState extends State<Edit> {
+    class _EditState extends State<Edit_profil> {
       final _formKey = GlobalKey<FormState>();
     
       //inisialize field
       var nama = TextEditingController();
-      var posisi_lamaran = TextEditingController();
-      var status = TextEditingController();
+      var email = TextEditingController();
+      var pass = TextEditingController();
     
       @override
       void initState() {
@@ -32,7 +33,6 @@ import 'package:note_app_mysql/home.dart';
       Future _getData() async {
         try {
           final response = await http.get(Uri.parse(
-
               "http://$ip/pegawai/data_pegawai/detail.php?id='${widget.id}'"));
     
           // if response successful
@@ -41,8 +41,8 @@ import 'package:note_app_mysql/home.dart';
     
             setState(() {
                nama = TextEditingController(text: data['nama']);
-                posisi_lamaran = TextEditingController(text: data['posisi_lamaran']);
-                status = TextEditingController(text: data['status']);
+                email = TextEditingController(text: data['email']);
+                pass = TextEditingController(text: data['pass']);
             });
           }
         } catch (e) {
@@ -53,20 +53,19 @@ import 'package:note_app_mysql/home.dart';
       Future _onUpdate(context) async {
         try {
           return await http.post(
-            Uri.parse("http://$ip/pegawai/data_pegawai/update_admin.php"),
+            Uri.parse("http://$ip/pegawai/data_pegawai/update.php"),
             body: {
               "id": widget.id,
               "nama": "${nama.text}",
-              "posisi_lamaran": "${posisi_lamaran.text}",
-              "status": "${status.text}",
+              "email": "${email.text}",
+              "pass": "${pass.text}",
             },
           ).then((value) {
             //print message after insert to database
             //you can improve this message with alert dialog
             var data = jsonDecode(value.body);
             print(data["message"]);
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Home()));
-    
+
           });
         } catch (e) {
           print(e);
@@ -158,9 +157,9 @@ import 'package:note_app_mysql/home.dart';
                   ),
                   SizedBox(height: 5),
                   TextFormField(
-                    controller: posisi_lamaran,
+                    controller: email,
                     decoration: InputDecoration(
-                        hintText: "jabatan",
+                        hintText: "email",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -179,9 +178,9 @@ import 'package:note_app_mysql/home.dart';
                   ),
                   SizedBox(height: 5),
                   TextFormField(
-                    controller: status,
+                    controller: pass,
                     decoration: InputDecoration(
-                        hintText: "status",
+                        hintText: "password",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),

@@ -1,13 +1,14 @@
-// ignore_for_file: prefer_const_constructors, unused_import, prefer_const_literals_to_create_immutables, use_key_in_widget_constructors, prefer_final_fields, unused_field, avoid_print, unnecessary_null_comparison, prefer_is_empty, unused_local_variable
-
-        import 'package:flutter/material.dart';
-        import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-        import 'package:http/http.dart' as http;
-        import 'dart:convert';
-        import 'add.dart';
-        import 'edit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:http/http.dart' as http;
+import 'package:note_app_mysql/config.dart';
+import 'package:note_app_mysql/edit.dart';
+import 'dart:convert';
         
         class Home extends StatefulWidget {
+         
+
+         
           @override
           HomeState createState() => HomeState();
         }
@@ -36,9 +37,8 @@
           Future _getData() async {
             try {
               final response = await http.get(Uri.parse(
-                  //you have to take the ip address of your computer.
-                  //because using localhost will cause an error
-                  "http://localhost/latihan/note_app/list.php"));
+            
+                  "http://$ip/pegawai/data_pegawai/list.php"));
         
               // if response successful
               if (response.statusCode == 200) {
@@ -58,7 +58,7 @@
           Widget build(BuildContext context) {
             return Scaffold(
               appBar: AppBar(
-                title: Text('Note List'),
+                title: Text('List Pegawai'),
               ),
               //if not equal to 0 show data
               //else show text "no data available"
@@ -88,12 +88,30 @@
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${_get[index]['date']}',
+                                    '${_get[index]['status']}',
                                     style: TextStyle(color: Colors.black),
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    '${_get[index]['title']}',
+                                    '${_get[index]['nama']}',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    '${_get[index]['tempat_lahir']}, ${_get[index]['tanggal_lahir']}',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    '${_get[index]['posisi_lamaran']}',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 20,
@@ -117,16 +135,7 @@
                         ),
                       ),
                     ),
-              floatingActionButton: FloatingActionButton(
-                backgroundColor: Colors.black,
-                child: Icon(Icons.add),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      //routing into add page
-                      MaterialPageRoute(builder: (context) => Add()));
-                },
-              ),
+             
             );
           }
         }

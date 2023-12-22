@@ -1,7 +1,6 @@
- // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
-
-        import 'package:flutter/material.dart';
-        import 'home.dart';
+import 'package:flutter/material.dart';
+import 'package:note_app_mysql/home.dart';
+import 'package:note_app_mysql/login.dart';
         
         void main() => runApp(App());
         
@@ -22,7 +21,7 @@
               title: 'Flutter + PHP CRUD',
               initialRoute: '/',
               routes: {
-                '/': (context) => Home(),
+                '/': (context) => login(),
               },
             );
           }
